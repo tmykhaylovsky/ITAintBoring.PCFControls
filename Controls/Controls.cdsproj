@@ -30,11 +30,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="ValidatedInputControl\ValidatedInputControl.pcfproj">
-      <Project>a252ef79-ab5b-44cc-9eaa-55a7409e4eb6</Project>
-      <Name>ValidatedInputControl</Name>
+    <ProjectReference Include="NToNMultiSelect\NToNMultiSelect.pcfproj">
+      <Project>12d26ee4-400f-4d9a-a877-7f149e3f6154</Project>
+      <Name>NToNMultiSelect</Name>
       <Targets>Build</Targets>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <OutputItemType>Content</OutputItemType>

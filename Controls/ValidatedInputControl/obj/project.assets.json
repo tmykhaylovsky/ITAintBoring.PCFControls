@@ -61,20 +61,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\shlegaal\\.nuget\\packages\\": {}
+    "C:\\Users\\Tolik\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
+      "projectUniqueName": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
       "projectName": "ValidatedInputControl",
-      "projectPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
-      "packagesPath": "C:\\Users\\shlegaal\\.nuget\\packages\\",
-      "outputPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\obj\\",
+      "projectPath": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
+      "packagesPath": "C:\\Users\\Tolik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\shlegaal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tolik\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

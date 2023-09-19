@@ -1,0 +1,2 @@
+C:\Users\Tolik\source\repos\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Release\ValidatedInputControl.pcfprojAssemblyReference.cache
+C:\Users\Tolik\source\repos\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Release\ValidatedInputControl.pcfproj.CoreCompileInputs.cache

@@ -15,7 +15,12 @@
     "jquery": "^3.4.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
     "pcf-scripts": "^1",
-    "pcf-start": "^1"
+    "pcf-start": "^1",
+    "typescript": "^4.9.5"
   }
 }
