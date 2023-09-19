@@ -166,10 +166,10 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 				thisVar.setReadonly();
 				$('#' + thisVar._ctrlId).select2().on('select2:select', function (e) {
 					const data = e.params.data;
-					thisVar.selectAction("select", data.id);
+					thisVar.selectAction("select", data);
 				}).on('select2:unselect', function (e) {
 					const data = e.params.data;
-					thisVar.selectAction("unselect", data.id);
+					thisVar.selectAction("unselect", data);
 				});
 			});
 		}
@@ -327,7 +327,7 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 		// Add code to cleanup control if necessary
 	}
 
-	public selectAction(action: string, id: string) {
+	public selectAction(action: string, data: any) {
 		/*
 		function (e: any, data: any) {
 					ProcessClick(
@@ -343,13 +343,13 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 				debugger;
 				const act = new DataAction();
 				act.associate = true;
-				act.guid = id;
+				act.guid = data.id;
 				this._relData.actions.push(act);
 			}
 			else {
 				for (let i = 0; i < this._relData.actions.length; i++) {
 					const act = this._relData.actions[i];
-					if (act.guid == id) {
+					if (act.guid == data.id) {
 						this._relData.actions.splice(i, 1);
 						break;
 					}
@@ -363,9 +363,11 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 
 			const url: string = (<any>Xrm).Utility.getGlobalContext().getClientUrl();
 			const recordUrl: string = url + "/api/data/v9.1/" + this._mainEntityCollectionName + "(" + (<any>this.contextObj).page.entityId + ")";
+			const _self = this;
+			const thisVar: any = this;
 
 			if (action == "select") {
-
+				Xrm.Utility.showProgressIndicator(`Associating OPS Tag..`);
 
 				//See himbap samples here: http://himbap.com/blog/?p=2063
 				const associate = {
@@ -373,7 +375,7 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 				};
 
 				const req = new XMLHttpRequest();
-				req.open("POST", url + "/api/data/v9.1/" + this._linkedEntityCollectionName + "(" + id + ")/" + this._relationshipName + "/$ref", true);
+				req.open("POST", url + "/api/data/v9.1/" + this._linkedEntityCollectionName + "(" + data.id + ")/" + this._relationshipName + "/$ref", true);
 				req.setRequestHeader("Accept", "application/json");
 				req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 				req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -382,19 +384,38 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 					if (this.readyState == 4 /* complete */) {
 						req.onreadystatechange = null;
 						if (this.status == 204) {
-							//alert('Record Associated');
+							//_self.alertDialog('Success',`Successfully associated tag`);
 						} else {
+							//remove unselect event listener
+							$('#' + thisVar._ctrlId).select2().off('select2:unselect');
+
+							//remove item that was added last
+							const lastAddedItemSelector = "select#" + thisVar._ctrlId + ` ~ span li[title='${data.text}'] span.select2-selection__choice__remove`;
+							console.log(`lastAddedItemSelector: ${lastAddedItemSelector}`);
+							jQuery(lastAddedItemSelector).trigger('click');
+
+							//bring back unselect event listener
+							$('#' + thisVar._ctrlId).select2().on('select2:unselect', function (e) {
+								const data = e.params.data;
+								thisVar.selectAction("unselect", data.id);
+							});
+
 							const error = JSON.parse(this.response).error;
-							alert(error.message);
+							_self.alertDialog('Error', error.message);
+							_self.showFormNotification(error.message);
 						}
 					}
+
+					Xrm.Utility.closeProgressIndicator();
 				};
 				req.send(JSON.stringify(associate));
 
 			}
 			else if (action == "unselect") {
+				Xrm.Utility.showProgressIndicator(`Disassociating OPS Tag..`);
+
 				const req = new XMLHttpRequest();
-				req.open("DELETE", url + "/api/data/v9.1/" + this._linkedEntityCollectionName + "(" + id + ")/" + this._relationshipName + "/$ref" + "?$id=" + recordUrl, true);
+				req.open("DELETE", url + "/api/data/v9.1/" + this._linkedEntityCollectionName + "(" + data.id + ")/" + this._relationshipName + "/$ref" + "?$id=" + recordUrl, true);
 				req.setRequestHeader("Accept", "application/json");
 				req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
 				req.setRequestHeader("OData-MaxVersion", "4.0");
@@ -403,12 +424,16 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 					if (this.readyState == 4 /* complete */) {
 						req.onreadystatechange = null;
 						if (this.status == 204) {
-							//alert('Record Disassociated');
+							//_self.alertDialog('Success',`Successfully disassociated tag`);
 						} else {
 							const error = JSON.parse(this.response).error;
-							alert(error.message);
+
+							_self.alertDialog('Error', error.message);
+							_self.showFormNotification(error.message);
 						}
 					}
+
+					Xrm.Utility.closeProgressIndicator();
 				};
 				req.send();
 			}
@@ -416,4 +441,31 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 
 	}
 
+	public showFormNotification(message: string, level: string = 'WARNING', notificationId: any = null) : void{
+		console.log('Starting showFormNotification');
+		(<any>Xrm).Page.ui.setFormNotification(message, level, notificationId);
+	}
+
+	public alertDialog(alertTitle: any, alertText: any) {
+		console.log(`Starting alertDialog(alertTitle: '${alertTitle}, alertText: ${alertText})`);
+
+		const alertStrings = { 
+			title: alertTitle, 
+			text: alertText 
+		};
+		const alertOptions = { 
+			height: 120, 
+			width: 260 
+		};
+		
+		(<any>Xrm).Navigation.openAlertDialog(alertStrings, alertOptions).then(
+			function success(result: any) {
+				console.log("Alert dialog closed");
+			},
+			function (error: { message: any; }) {
+				console.log(error.message);
+			}
+		);
+	}
 }
+
