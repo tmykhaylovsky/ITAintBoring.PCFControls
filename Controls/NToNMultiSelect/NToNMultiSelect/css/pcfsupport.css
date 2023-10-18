@@ -24,3 +24,8 @@
 	top:0; 
 	left:0
 }
+
+/*Originally 1051 from select2.min.css. Z index higher than dynamics modals*/
+.select2-dropdown {
+	z-index: 0 !important;
+}

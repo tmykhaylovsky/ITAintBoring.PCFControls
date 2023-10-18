@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-41" ?>
 <manifest>
 
-  <control namespace="ItAintBoring.PCFControls" constructor="ExternalValidatorControl" version="0.0.41" display-name-key="External Validation Control" description-key="External Validation Control" control-type="standard">
+  <control namespace="OPSBase.PCFControls" constructor="ExternalValidatorControl" version="0.0.41" display-name-key="External Validation Control" description-key="External Validation Control" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="value" display-name-key="Value" description-key="Value" of-type="SingleLine.Text" usage="bound" required="true" />
 	<property name="errorMessage" display-name-key="Error Message" description-key="Error Message" of-type="SingleLine.Text" usage="input" required="false" />

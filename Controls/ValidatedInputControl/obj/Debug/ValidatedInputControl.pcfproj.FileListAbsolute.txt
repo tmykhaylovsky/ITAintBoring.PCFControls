@@ -1,6 +1,6 @@
-C:\Work\Projects\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojResolveAssemblyReference.cache
-C:\Work\Projects\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache
-C:\Git\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojAssemblyReference.cache
-C:\Git\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache
-C:\Users\Tolik\source\repos\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojAssemblyReference.cache
-C:\Users\Tolik\source\repos\ITAintBoring.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache
+C:\Work\Projects\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojResolveAssemblyReference.cache
+C:\Work\Projects\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache
+C:\Git\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojAssemblyReference.cache
+C:\Git\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache
+C:\Users\Tolik\source\repos\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfprojAssemblyReference.cache
+C:\Users\Tolik\source\repos\OPSBase.PCFControls\Controls\ValidatedInputControl\obj\Debug\ValidatedInputControl.pcfproj.CoreCompileInputs.cache

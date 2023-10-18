@@ -21,7 +21,7 @@ if(($SolutionOnly -ne $true) -and
 }
 
 if($env:SolutionName -eq $null){
-  $global:SolutionName = "ItAintBoringPCFControls"
+  $global:SolutionName = "OPSBasePCFControls"
 }
 else{
   $global:SolutionName = $env:SolutionName

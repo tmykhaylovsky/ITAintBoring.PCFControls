@@ -13,14 +13,14 @@
     <Managed>2</Managed>
     <Publisher>
       <!-- Unique Publisher Name of Cds Solution -->
-      <UniqueName>ItAintBoring</UniqueName>
+      <UniqueName>DefaultPublisherorg50e3ae7f</UniqueName>
       <LocalizedNames>
         <!-- Localized Cds Publisher Name in language code-->
-        <LocalizedName description="ItAintBoring" languagecode="1033" />
+        <LocalizedName description="Optimal Pursuits LLC" languagecode="1033" />
       </LocalizedNames>
       <Descriptions>
         <!-- Description of Cds Publisher in language code -->
-        <Description description="ItAintBoring" languagecode="1033" />
+        <Description description="Optimal Pursuits LLC" languagecode="1033" />
       </Descriptions>
       <EMailAddress xsi:nil="true"></EMailAddress>
       <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>

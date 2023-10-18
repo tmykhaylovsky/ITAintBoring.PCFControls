@@ -1,0 +1,9 @@
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\bin\Debug\OPSBase.PCFSupport.dll
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\bin\Debug\OPSBase.PCFSupport.pdb
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\bin\Debug\Microsoft.Crm.Sdk.Proxy.xml
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\bin\Debug\Microsoft.Xrm.Sdk.xml
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\obj\Debug\OPSBase.PCFSupport.csprojResolveAssemblyReference.cache
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\obj\Debug\OPSBase.PCFSupport.csproj.CoreCompileInputs.cache
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\obj\Debug\OPSBase.PCFSupport.csproj.CopyComplete
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\obj\Debug\OPSBase.PCFSupport.dll
+C:\Work\Projects\OPSBase.PCFControls\OPSBase.PCFSupport\obj\Debug\OPSBase.PCFSupport.pdb

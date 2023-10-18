@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-52" ?>
 <manifest>
-  <control namespace="ItAintBoring.PCFControls" constructor="IFrameControl" version="0.0.52" display-name-key="IFrameControl" description-key="IFrameControl description" control-type="standard">
+  <control namespace="OPSBase.PCFControls" constructor="IFrameControl" version="0.0.52" display-name-key="IFrameControl" description-key="IFrameControl description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="value" display-name-key="Anchor Property" description-key="Anchor Property to use for IFrame renderign"  of-type-group="AnyType" usage="bound" required="true" />
     <property name="src" display-name-key="IFrame Src" description-key="IFrame Src" of-type="SingleLine.Text" usage="input" required="true" />

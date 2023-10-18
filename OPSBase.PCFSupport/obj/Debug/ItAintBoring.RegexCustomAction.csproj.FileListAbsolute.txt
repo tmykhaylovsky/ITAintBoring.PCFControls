@@ -1,0 +1,11 @@
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\OPSBase.RegexCustomAction.dll
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\OPSBase.RegexCustomAction.pdb
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\Microsoft.Crm.Sdk.Proxy.dll
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\Microsoft.Xrm.Sdk.dll
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\Microsoft.Crm.Sdk.Proxy.xml
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\bin\Debug\Microsoft.Xrm.Sdk.xml
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\obj\Debug\OPSBase.RegexCustomAction.csprojResolveAssemblyReference.cache
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\obj\Debug\OPSBase.RegexCustomAction.csproj.CoreCompileInputs.cache
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\obj\Debug\OPSBase.RegexCustomAction.csproj.CopyComplete
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\obj\Debug\OPSBase.RegexCustomAction.dll
+C:\Work\Projects\OPSBase.PowerPlatformWithCode\OPSBase.RegexCustomAction\obj\Debug\OPSBase.RegexCustomAction.pdb

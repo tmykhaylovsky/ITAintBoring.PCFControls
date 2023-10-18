@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-50" ?>
 <manifest>
-  <control namespace="ItAintBoring.PCFControls" constructor="ITAWordTemplate" version="0.0.50" display-name-key="ITAWordTemplate" description-key="Word Template Control description" control-type="standard">
+  <control namespace="OPSBase.PCFControls" constructor="ITAWordTemplate" version="0.0.50" display-name-key="ITAWordTemplate" description-key="Word Template Control description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="value" display-name-key="Anchor Property" description-key="Anchor Property to use for IFrame renderign"  of-type-group="AnyType" usage="bound" required="true" />
     <property name="FlowUrl" display-name-key="Flow Url" description-key="Flow Url" of-type="Multiple" usage="input" required="true" />

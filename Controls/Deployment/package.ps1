@@ -56,7 +56,7 @@ New-PCFControlVersion $manifestFilePath
 
 #version number has been updated
 
-pac.exe solution init --publisherName "itaintboring" --customizationPrefix "ita_"
+pac.exe solution init --publisherName "DefaultPublisherorg50e3ae7f" --customizationPrefix "ops_"
 pac.exe solution add-reference --path ..\ValidatedInputControl
 pac.exe solution add-reference --path ..\CheckBoxList
 pac.exe solution add-reference --path ..\TreeRelationships

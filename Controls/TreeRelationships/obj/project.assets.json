@@ -66,11 +66,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\TreeRelationships\\TreeRelationships.pcfproj",
+      "projectUniqueName": "C:\\Git\\OPSBase.PCFControls\\Controls\\TreeRelationships\\TreeRelationships.pcfproj",
       "projectName": "TreeRelationships",
-      "projectPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\TreeRelationships\\TreeRelationships.pcfproj",
+      "projectPath": "C:\\Git\\OPSBase.PCFControls\\Controls\\TreeRelationships\\TreeRelationships.pcfproj",
       "packagesPath": "C:\\Users\\shlegaal\\.nuget\\packages\\",
-      "outputPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\TreeRelationships\\obj\\",
+      "outputPath": "C:\\Git\\OPSBase.PCFControls\\Controls\\TreeRelationships\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

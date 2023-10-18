@@ -66,11 +66,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
+      "projectUniqueName": "C:\\Users\\Tolik\\source\\repos\\OPSBase.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
       "projectName": "ValidatedInputControl",
-      "projectPath": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
+      "projectPath": "C:\\Users\\Tolik\\source\\repos\\OPSBase.PCFControls\\Controls\\ValidatedInputControl\\ValidatedInputControl.pcfproj",
       "packagesPath": "C:\\Users\\Tolik\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tolik\\source\\repos\\ITAintBoring.PCFControls\\Controls\\ValidatedInputControl\\obj\\",
+      "outputPath": "C:\\Users\\Tolik\\source\\repos\\OPSBase.PCFControls\\Controls\\ValidatedInputControl\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

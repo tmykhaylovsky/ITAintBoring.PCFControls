@@ -66,11 +66,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\CheckBoxList\\CheckBoxList.pcfproj",
+      "projectUniqueName": "C:\\Git\\OPSBase.PCFControls\\Controls\\CheckBoxList\\CheckBoxList.pcfproj",
       "projectName": "CheckBoxList",
-      "projectPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\CheckBoxList\\CheckBoxList.pcfproj",
+      "projectPath": "C:\\Git\\OPSBase.PCFControls\\Controls\\CheckBoxList\\CheckBoxList.pcfproj",
       "packagesPath": "C:\\Users\\shlegaal\\.nuget\\packages\\",
-      "outputPath": "C:\\Git\\ITAintBoring.PCFControls\\Controls\\CheckBoxList\\obj\\",
+      "outputPath": "C:\\Git\\OPSBase.PCFControls\\Controls\\CheckBoxList\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [

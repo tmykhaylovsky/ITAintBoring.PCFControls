@@ -33,13 +33,15 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 
 	private _relData: NToNData;
 
+	private _formAttributeLogicalName: string;
 	private _linkedEntityName: string;
 	private _relationshipEntity: string;
 	private _relationshipName: string;
 	private _idAttribute: string;
 	private _nameAttribute: string;
 	// private _linkedEntityFetchXmlResource: string;
-	private _linkedEntityDynamicsFetchXml: string;
+	private _linkedEntityDynamicFetchXml: string;
+	private _triggerNToNRecordsRefresh: boolean = false;
 
 	private _linkedEntityCollectionName: string;
 	private _mainEntityCollectionName: string;
@@ -52,6 +54,8 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	private _ctrlId: string;
 
 	private _notifyOutputChanged: () => void;
+
+	private _delayBySeconds: number = 1;
 
 
 	/**
@@ -82,7 +86,8 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement) {
-		debugger;
+		console.log('Starting init(context, notifyOutputChanged, state, container)');
+
 		this.container = container;
 		this.contextObj = context;
 		if (typeof Xrm == 'undefined') {
@@ -90,12 +95,18 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 			this.errorElement.innerHTML = "<H2>This control only works on model-driven forms!</H2>";
 			container.appendChild(this.errorElement);
 			this._isValidState = false;
+
+			console.log(`Xrm object unavailable`);
 		}
 		else {
 
 			this._ctrlId = this.newGuid();
 			this._relData = new NToNData();
 			this._relData.actions = [];
+
+			if (context.parameters.value.attributes?.LogicalName != null) {
+				this._formAttributeLogicalName = context.parameters.value.attributes.LogicalName;
+			}
 
 			if (context.parameters.linkedEntityName.raw != null) {
 				this._linkedEntityName = context.parameters.linkedEntityName.raw;
@@ -122,8 +133,20 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 			// }
 
 			if (context.parameters.linkedEntityDynamicFetchXml.raw != null) {
-				this._linkedEntityDynamicsFetchXml = context.parameters.linkedEntityDynamicFetchXml.raw;
+				this._linkedEntityDynamicFetchXml = context.parameters.linkedEntityDynamicFetchXml.raw;
 			}
+
+			if (context.parameters.triggerNToNRecordsRefresh.raw != null) {
+				const triggerRefresh = context.parameters.triggerNToNRecordsRefresh.raw;
+				console.log(`triggerRefresh: ${triggerRefresh} (0 = true, 1 = false)`);
+
+				if(context.parameters.triggerNToNRecordsRefresh.raw == '0'){
+					this._triggerNToNRecordsRefresh = true;
+				}
+			}
+
+			console.log(`context.parameters:`);
+			console.log(context.parameters);
 
 			context.mode.trackContainerResize(true);
 			container.classList.add("pcf_container_element");
@@ -141,7 +164,6 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 			container.appendChild(this.mainContainer);
 
 
-
 			this._entityMetadataSuccessCallback = this.entityMetadataSuccessCallback.bind(this);
 			this._linkedEntityMetadataSuccessCallback = this.linkedEntityMetadataSuccessCallback.bind(this);
 			this._relationshipSuccessCallback = this.relationshipSuccessCallback.bind(this);
@@ -153,70 +175,50 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 			(<any>Xrm).Utility.getEntityMetadata(this._linkedEntityName, []).then(this._linkedEntityMetadataSuccessCallback, this.errorCallback);
 			//(<any>Xrm).WebApi.retrieveMultipleRecords(this._relationshipEntity, "?$filter="+ (<any>this.contextObj).page.entityTypeName+"id eq " + (<any>this.contextObj).page.entityId, 5000).then(this._relationshipSuccessCallback, this.errorCallback);
 
-			if ((<any>this.contextObj).page.entityId != null
-				&& (<any>this.contextObj).page.entityId != "00000000-0000-0000-0000-000000000000") {
-				this.contextObj.webAPI.retrieveMultipleRecords(this._relationshipEntity, "?$filter=" + (<any>this.contextObj).page.entityTypeName + "id eq " + (<any>this.contextObj).page.entityId, 5000).then(this._relationshipSuccessCallback, this.errorCallback);
-			}
-			else {
-				this.relationshipSuccessCallback(null);
-			}
-
-			const thisVar: any = this;
-			$(document).ready(function () {
-				thisVar.setReadonly();
-				$('#' + thisVar._ctrlId).select2().on('select2:select', function (e) {
-					const data = e.params.data;
-					thisVar.selectAction("select", data);
-				}).on('select2:unselect', function (e) {
-					const data = e.params.data;
-					thisVar.selectAction("unselect", data);
-				});
-			});
+			this.getNToNRecordsAndPopulateSelectControlOptions();
+			this.attachSelectAndUnselectEvents();
 		}
 	}
 
 	public entityMetadataSuccessCallback(value: any): void | PromiseLike<void> {
+		console.log('Starting entityMetadataSuccessCallback(value)');
+		console.log(`value.EntitySetName: ${value.EntitySetName}`);
+
 		this._mainEntityCollectionName = value.EntitySetName;
 	}
 
 	public linkedEntityMetadataSuccessCallback(value: any): void | PromiseLike<void> {
+		console.log('Starting linkedEntityMetadataSuccessCallback(value)');
+		console.log(`value.EntitySetName: ${value.EntitySetName}`);
+
 		this._linkedEntityCollectionName = value.EntitySetName;
 	}
 
 	public addOptions(value: any) {
+		console.log('Starting addOptions(value)');
+		console.log(value);
+
 		for (const i in value.entities) {
 			const current: any = value.entities[i];
 
 			const checked = this.selectedItems.indexOf(<string>current[this._idAttribute]) > -1;
 			const newOption = new Option(current[this._nameAttribute], current[this._idAttribute], checked, checked);
 			$('#' + this._ctrlId).append(newOption);
-			/*
-					var option = document.createElement("option");
-					option.value = current[this._idAttribute];
-					option.text = current[this._nameAttribute];
-					this.mainContainer.options.add(option);
-				*/
 		}
-		/*
-				var thisVar : any = this;
-		
-				setTimeout(function(){ 
-					for(var si in thisVar.selectedItems){
-						var sel : any = thisVar.selectedItems[si];
-						$('#'+ thisVar._ctrlId).val(sel);
-					}
-				}, 200);
-				*/
 	}
 
 	public successCallback(value: any): void | PromiseLike<void> {
-		this.addOptions(value);
-		//this.initTree();
+		console.log('Starting successCallback(value)');
+		console.log(value);
 
+		this.addOptions(value);
 	}
 
 
 	public relationshipSuccessCallback(value: any): void | PromiseLike<void> {
+		console.log('Starting relationshipSuccessCallback(value)');
+		console.log(value);
+
 		if (value != null) {
 			for (const i in value.entities) {
 				this.selectedItems.push(value.entities[i][this._idAttribute]);
@@ -240,8 +242,8 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 		//     this.contextObj.webAPI.retrieveMultipleRecords(this._linkedEntityName, "?$orderby=" + this._nameAttribute + " asc", 5000).then(this._successCallback, this.errorCallback);
 		// }
 
-		const parsedFetchXml = this.parseDynamicFetchXml(this._linkedEntityDynamicsFetchXml);
-		if (this._linkedEntityDynamicsFetchXml != null && parsedFetchXml != null && parsedFetchXml != "") {
+		const parsedFetchXml = this.parseDynamicFetchXml(this._linkedEntityDynamicFetchXml);
+		if (this._linkedEntityDynamicFetchXml != null && parsedFetchXml != null && parsedFetchXml != "") {
 			const _self = this;
 			_self.contextObj.webAPI.retrieveMultipleRecords(_self._linkedEntityName, "?fetchXml=" + encodeURIComponent(parsedFetchXml), 5000).then(_self._successCallback, _self.errorCallback);
 		}
@@ -251,18 +253,19 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	}
 
 	public parseDynamicFetchXml(dynamicFetchXml: string): string {
-		console.log(dynamicFetchXml);
+		console.log('Starting parseDynamicFetchXml(dynamicFetchXml)');
+		//console.log(dynamicFetchXml);
 
-		let parsedFetchXml: string = "";
+		let parsedFetchXml: string = dynamicFetchXml;
 
 		const regex = /{{(.*?)}}/;
 		const match = dynamicFetchXml.match(regex);
-		console.log('match: ' + match);
+		console.log(`Checking if FetchXML contains a placeholder to be replaced with an evaluated form lookup attribute value based on regex pattern ${regex}. Match: ${match} (null = no match)`);
 		if (match && match.length == 2) {
 			const replaceString = match[0];
 			const lookupAttributeLogicalName = match[1];
 
-			console.log(`replaceString: ${replaceString}, lookupAttributeLogicalName: ${lookupAttributeLogicalName}`);
+			console.log(`Will replace placeholder ${replaceString} with the id value from a form lookup attribute with logical name of ${lookupAttributeLogicalName}`);
 
 			const lookupAttribute = (<any>Xrm).Page.getAttribute(lookupAttributeLogicalName);
 
@@ -274,20 +277,31 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 					console.log(`lookupAttributeId: ${lookupAttributeId}`);
 
 					parsedFetchXml = dynamicFetchXml.replace(replaceString, lookupAttributeId);
+
+					console.log(`Parsed FetchXML placeholder (${replaceString}) and replaced it with value (${lookupAttributeId})`);
+				} else {
+					console.log(`lookupAttributeObject is null (.getValue() returns null) even though lookupAttribute is not null`);
 				}
+			} else {
+				console.log(`lookupAttribute with logical name (${lookupAttributeLogicalName}) doesn't exist on the form. Expected dynamic FetchXML will be invalid`);
 			}
 		}
 
-		console.log(`parsedFetchXml: ${parsedFetchXml}`);
+		//console.log(`parsedFetchXml: ${parsedFetchXml}`);
 
 		return parsedFetchXml;
 	}
 
 	public errorCallback(value: any) {
+		console.log('Starting errorCallback(value)');
+		console.log(value);
+
 		alert(value);
 	}
 
 	public setReadonly(): void {
+		console.log(`Starting setReadonly, this.contextObj.mode.isControlDisabled: ${this.contextObj.mode.isControlDisabled} (false = display:none, true = display:block) CSS applied to div.pcf_overlay_element's display property`);
+
 		(<HTMLElement>this.container.firstElementChild).style.display = this.contextObj.mode.isControlDisabled == false ? "none" : "block";
 	}
 
@@ -296,10 +310,71 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
+		console.log('Starting updateView(context) context:');
+		console.log(context);
+		console.log(`this._isValidState: ${this._isValidState} (true = will attempt to check if triggered to get latest N:N records/rebuild select control)`);
+
 		if (this._isValidState == false) return;
 		// Add code to update control view
 		this.contextObj = context;
 		this.setReadonly();
+
+		const formAttribute = (<any>Xrm).Page.getAttribute(this._formAttributeLogicalName);
+		if(formAttribute){
+			const formAttributeValue = formAttribute.getValue();
+
+			console.log(`this._triggerNToNRecordsRefresh: ${this._triggerNToNRecordsRefresh} (Trigger N To N Records Refresh PCF control setting)`);
+			console.log(`formAttributeValue: ${formAttributeValue} (on init, should be null/empty. on updateView should equal 'trigger' if another script temporarily set value)`);
+
+			if(this._triggerNToNRecordsRefresh && formAttributeValue == 'trigger'){
+				console.log(`Remove select and unselect event listeners, otherwise the N:N record create/delete will try to run twice`);
+				$('#' + this._ctrlId).select2().off('select2:select');
+				$('#' + this._ctrlId).select2().off('select2:unselect');
+
+				console.log(`Clear select control options`);
+				$('#' + this._ctrlId).empty();
+
+				console.log(`Get latest N:N records and rebuild select control options. Attach select and unselect events to the select control`);
+				this.getNToNRecordsAndPopulateSelectControlOptions();
+				this.attachSelectAndUnselectEvents();
+
+				console.log(`Set the triggering form attribute back to null in case it wasn't cleared.`);
+				setTimeout(function(){
+					formAttribute.setValue(null);
+				}, 1000);
+			}
+		} else {
+			console.log(`formAttribute with logical name (${this._formAttributeLogicalName}) doesn't exist on the form`);
+		}
+		
+	}
+
+	public getNToNRecordsAndPopulateSelectControlOptions() : void {
+		console.log(`Starting getNToNRecordsAndPopulateSelectControlOptions`);
+
+		if ((<any>this.contextObj).page.entityId != null
+			&& (<any>this.contextObj).page.entityId != "00000000-0000-0000-0000-000000000000") {
+			this.contextObj.webAPI.retrieveMultipleRecords(this._relationshipEntity, "?$filter=" + (<any>this.contextObj).page.entityTypeName + "id eq " + (<any>this.contextObj).page.entityId, 5000).then(this._relationshipSuccessCallback, this.errorCallback);
+		}
+		else {
+			this.relationshipSuccessCallback(null);
+		}
+	}
+
+	public attachSelectAndUnselectEvents(): void {
+		console.log(`Starting attachSelectAndUnselectEvents()`);
+
+		const thisVar: any = this;
+		$(function () {
+			thisVar.setReadonly();
+			$('#' + thisVar._ctrlId).select2().on('select2:select', function (e) {
+				const data = e.params.data;
+				thisVar.selectAction("select", data);
+			}).on('select2:unselect', function (e) {
+				const data = e.params.data;
+				thisVar.selectAction("unselect", data);
+			});
+		});
 	}
 
 	/** 
@@ -307,6 +382,8 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs {
+		console.log('Starting getOutputs');
+
 		if (this._isValidState == false) {
 			return {
 				value: ""
@@ -328,6 +405,9 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 	}
 
 	public selectAction(action: string, data: any) {
+		console.log(`Starting selectAction(action: ${action}, data)`);
+		console.log(data);
+
 		/*
 		function (e: any, data: any) {
 					ProcessClick(
@@ -406,13 +486,22 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 						}
 					}
 
-					Xrm.Utility.closeProgressIndicator();
+					setTimeout(function(){
+						Xrm.Utility.closeProgressIndicator();
+					}, _self._delayBySeconds * 1000);
 				};
 				req.send(JSON.stringify(associate));
 
 			}
 			else if (action == "unselect") {
 				Xrm.Utility.showProgressIndicator(`Disassociating OPS Tag..`);
+
+				//Fixing behavior when select limit reached, the select object changes from a data object containing the id as a property to the data object being the id itself
+				if(data.id === undefined){
+					data = { id: data };
+					console.log('data where data.id was undefined');
+					console.log(data);
+				}
 
 				const req = new XMLHttpRequest();
 				req.open("DELETE", url + "/api/data/v9.1/" + this._linkedEntityCollectionName + "(" + data.id + ")/" + this._relationshipName + "/$ref" + "?$id=" + recordUrl, true);
@@ -433,7 +522,9 @@ export class NToNMultiSelect implements ComponentFramework.StandardControl<IInpu
 						}
 					}
 
-					Xrm.Utility.closeProgressIndicator();
+					setTimeout(function(){
+						Xrm.Utility.closeProgressIndicator();
+					}, _self._delayBySeconds * 1000);
 				};
 				req.send();
 			}

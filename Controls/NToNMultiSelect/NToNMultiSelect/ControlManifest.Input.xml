@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-109" ?>
 <manifest>
-  <control namespace="ItAintBoring.PCFControls" constructor="NToNMultiSelect" version="0.0.122" display-name-key="NToNMultiSelect" description-key="NToNMultiSelect description" control-type="standard">
+  <control namespace="OPSBase.PCFControls" constructor="NToNMultiSelect" version="0.0.166" display-name-key="NToNMultiSelect" description-key="NToNMultiSelect description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="value" display-name-key="Value" description-key="Value" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="linkedEntityName" display-name-key="Linked Entity Name" description-key="Linked Entity Name" of-type="SingleLine.Text" usage="input" required="false" />
@@ -9,7 +9,13 @@
     <property name="relationshipName" display-name-key="Relationship Name" description-key="Relationship Name" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="relationshipEntity" display-name-key="Relationship Entity" description-key="Relationship Entity" of-type="SingleLine.Text" usage="input" required="false" />
     <!-- <property name="linkedEntityFetchXmlResource" display-name-key="FetchXml Web Resource" description-key="Optional FetchXml web resource to select linked entity records" of-type="SingleLine.Text" usage="input" required="false" /> -->
-    <property name="linkedEntityDynamicFetchXml" display-name-key="Dynamic FetchXml" description-key="Dynamic FetchXml to select linked entity records with a dynamic filter condition that filters by a lookups id" of-type="SingleLine.TextArea" usage="input" required="false"  />
+    <property name="linkedEntityDynamicFetchXml" display-name-key="Dynamic FetchXml" description-key="Dynamic FetchXml to select linked entity records with a dynamic filter condition that filters by a lookups id. Remember to set the Trigger Lookup Attribute input to filter options" of-type="SingleLine.TextArea" usage="input" required="false"  />
+    <property name="triggerLookupAttribute" display-name-key="Trigger Lookup Attribute" description-key="On a form lookup attribute change, control will be refreshed" of-type="Lookup.Simple" usage="bound" required="false" />
+    <property name="triggerSingleLineAttribute" display-name-key="Trigger Single Line Attribute" description-key="On a form single line attribute change, control will be refreshed" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="triggerNToNRecordsRefresh" display-name-key="Trigger N To N Records Refresh" description-key="If Single Line attribute that has N to N control attached to it is externally set to a string value (trigger), then allow for a Web API N to N Records Refresh" of-type="Enum" usage="input" required="true" default-value="0">
+      <value name="Yes" display-name-key="Yes" description-key="Trigger">0</value>
+      <value name="No" display-name-key="No" description-key="Do not trigger">1</value>
+    </property>
 
     <feature-usage>
        <uses-feature name="WebAPI" required="true" />
